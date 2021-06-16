@@ -11,7 +11,7 @@ library(plotly)
 
 # Read in LEA shapefile. Se value to 0/1.
 lea_20 <- readOGR(dsn="LEA_shape_20" , layer= "35a9dae0-cac3-4dd4-8b82-ab9620d83b3a2020329-1-dre26o.cnhvf")
-lea_20_df <- tidy(lea_20 , NUTS3="LE_ID" ) %>% mutate(value = if_else(id=="13100400" , 1 , 0))
+lea_20_df <- tidy(lea_20 , region="LE_ID" ) %>% mutate(value = if_else(id=="13100400" , 1 , 0))
 
 # Have a quick look
 ggplot(lea_20_df, aes(long, lat, group=group, fill=value)) + 
