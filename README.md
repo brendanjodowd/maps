@@ -1,6 +1,6 @@
 # maps
 
-My plan is to have a selection of shapefiles, probably just in CSV format, which can be used for making maps in R. 
+My plan is to have a selection of shapefiles, probably just in CSV format, which can be used for making maps in R. The code used to generate the shapefiles will also be uploaded.
 
 I would like to have maps of counties, small areas, electoral areas (2015 and 2019), admininstrative areas, and NUTS regions. They will all be in generic lat/long projection. I would like to include a boundary of Northern Ireland in each of these. Eventually it would be nice to include the Shannon Estuary in each of these maps (many of these maps come with a line that closes off the estuary between Limerick and Clare). Ideally it would also be good if the maps could be nested exactly within each other. A gold-plated version would be a single file that contains all possible boundary options with precise nesting.
 
