@@ -4,7 +4,7 @@ My plan is to have a selection of shapefiles, probably just in CSV format, which
 
 I would like to have maps of counties, small areas, electoral areas (2015 and 2019), admininstrative areas, and NUTS regions. They will all be in generic lat/long projection. I would like to include a boundary of Northern Ireland in each of these. Eventually it would be nice to include the Shannon Estuary in each of these maps (many of these maps come with a line that closes off the estuary between Limerick and Clare). Ideally it would also be good if the maps could be nested exactly within each other. A gold-plated version would be a single file that contains all possible boundary options with precise nesting.
 
-One other goal of this project is that the names or IDs of regions are compatiable with those used in regional data from the CSO website and the Pobal HP deprivation data.
+One other goal of this project is that the names/IDs of regions are compatiable with those used in regional data from the CSO website and the Pobal HP deprivation data.
 
 ## Maps data sources
 
