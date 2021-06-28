@@ -1,7 +1,3 @@
-# this makes two dataframes, LEA_137 and LEA_166, which are shapes for local electoral areas
-# Maps for counties, admin_areas, NUTS2 and NUTS3 can be produced from these using group_by and summarise,
-# see example with counties below.
-
 
 library(tidyverse)
 library(rmapshaper)
@@ -17,6 +13,7 @@ lea_166 <- st_read("Local_Electoral_Areas_-_OSi_National_Statutory_Boundaries_-_
   st_transform( "+proj=longlat" ) %>% 
   select(LE_ID , ENGLISH , COUNTY ,AREA, geometry)%>% 
   rename(LEA=ENGLISH) %>% 
+  mutate(AREA = AREA/1000000) %>% 
   mutate(NUTS3 = case_when(
     COUNTY=="DUBLIN"~"Dublin",
     COUNTY %in% c("CORK","KERRY")~"South-West",
@@ -49,10 +46,7 @@ object.size(lea_166) # 2.9MB
 plot(lea_166 )
 
 
-# How to use it to create a map of a broader region.
-county_sf <- lea_166 %>% group_by(COUNTY) %>% summarise(geometry = st_union(geometry) , AREA=sum(AREA))
-plot(county_sf)
-ggplot(county_sf)+geom_sf()
+
 
 # Read in coast for the Shannon estuary
 # shannon <- st_read("Landmask_-_OSi_National_250k_Map_of_Ireland.geojson") %>% 
@@ -80,7 +74,7 @@ ggplot(st_crop(lea_166 , xmin=-10.5 ,xmax=-8 ,ymin=52.4, ymax=53) , aes(fill=LE_
 ni <- st_read("OSNI_Open_Data_-_Largescale_Boundaries_-_County_Boundaries_.geojson")%>% 
   st_transform( "+proj=longlat" ) %>% ms_simplify() %>% mutate(LE_ID = "NI") %>% 
   group_by(LE_ID) %>% 
-  summarise(geometry = st_union(geometry) , AREA = sum(Area_SqKM)*1000000) %>% 
+  summarise(geometry = st_union(geometry) , AREA = sum(Area_SqKM)) %>% 
   mutate(LEA="NI" ,COUNTY="NI" ,NUTS3="NI", NUTS2="NI" )
 
 object.size(ni) # 339 kB
@@ -119,7 +113,8 @@ lea_166 <- full_join(lea_166 , lea_names) %>%
   mutate(LEA = str_replace(LEA , "( - )|( -)|(- )|(  )" , "-")   ) %>% 
   mutate(LEA = str_replace(LEA , "-In-" , "-in-")   ) %>% 
   mutate(LEA = str_replace(LEA , "-On-" , "-on-")   ) %>% 
-  mutate(LEA = str_replace(LEA , "^Ni$" , "NI")   ) 
+  mutate(LEA = str_replace(LEA , "^Ni$" , "NI")   ) %>% 
+  mutate(COUNTY = str_to_title(COUNTY))
 
 
 
@@ -127,7 +122,8 @@ lea_166 <- full_join(lea_166 , lea_names) %>%
 lea_137 <- st_read("Local_Electoral_Areas_Boundaries_Generalised_100m_-_OSi_National_Administrative_Boundaries_-_2015.geojson")%>% 
   st_transform( "+proj=longlat" ) %>% 
   select(GUID, LE_ID , LE_ENGLISH, COUNTY , Shape__Area) %>% rename(AREA=Shape__Area , LEA=LE_ENGLISH) %>% 
-  mutate(NUTS3 = case_when(
+  mutate(AREA = AREA/1000000) %>% 
+  mutate(COUNTY = str_to_title(COUNTY),  NUTS3 = case_when(
     COUNTY=="Dublin"~"Dublin",
     COUNTY %in% c("Cork","Kerry")~"South-West",
     COUNTY %in% c("Galway","Roscommon", "Mayo")~"West",
@@ -145,7 +141,7 @@ lea_137 <- st_read("Local_Electoral_Areas_Boundaries_Generalised_100m_-_OSi_Nati
 
 
 
-lea_137 <- rbind(ms_clip(lea_137 , clip=shannon) , mutate(ni  , GUID="NI"))
+lea_137 <- rbind(ms_clip(lea_137 , clip=shannon) , mutate(ni  , GUID="NI" ))
 plot(lea_137)
 
 
@@ -216,4 +212,8 @@ lea_137 <- full_join(lea_137  , lea_names) %>%
   mutate(LEA=str_replace(LEA , "-On-" , "-on-")) %>% 
   mutate(LEA=str_replace(LEA , " And " , " and ")) %>% 
   mutate(LEA=str_replace(LEA , "^Ni$" , "NI"))
+
+
+st_write(lea_137 , "lea_137.geojson")
+st_write(lea_166 , "lea_166.geojson")
 
