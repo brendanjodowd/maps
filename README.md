@@ -10,7 +10,7 @@ Some maps in geojson format which can be used in R. While they are given as a co
 - Shannon esturary is clipped out of shapes.
 - Regions can be easily aggregated up to produce counties, admin areas, NUTS2 and NUTS3 regions, with full nesting.
 - Northern Ireland outline included
-- Includes `cso_name` variable for LEAs, which allows easy linking to CSO PXStat files,
+- Includes `cso_name` variable for LEAs, which allows easy linking to [CSO PxStat files](https://data.cso.ie/),
 - Includes `hp_name` variable for LEAs for `lea_137` file only, which allows easy linking to [Pobal HP data](http://trutzhaase.eu/deprivation-index/the-2016-pobal-hp-deprivation-index-for-small-areas/).
 
 ## Aggregating up for counties and NUTS regions
