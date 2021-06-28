@@ -15,7 +15,10 @@ Some maps in geojson format which can be used in R. While they are given as a co
 
 ## Aggregating up for counties and NUTS regions
 
-
+Maps for counties, admin areas, NUTS2 and NUTS3 regions can be produced using either of the shapefiles provided. To produce a map of counties, for example, use:
+```
+county_map <- lea_166 %>% group_by(COUNTY) %>% summarise(geometry = st_union(geometry) , AREA=sum(AREA))
+```
 
 ## Maps data sources
 
