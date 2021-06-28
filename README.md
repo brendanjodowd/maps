@@ -5,6 +5,16 @@ Some maps in geojson format which can be used in R. While they are given as a co
 `lea_166` is the current set of 166 local electoral areas, plus Northern Ireland.
 `lea_137` is the old set of 137 local electoral areas which was used at the time of the last Census in 2016, plus Northern Ireland.
 
+## How to use
+
+You can import the maps directly from the web using `st_read`:
+```
+lea_166 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/lea_166.geojson")
+lea_137 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/lea_137.geojson")
+```
+Then you can have a look using `plot(lea_166)`, but I like using `ggplot(lea_166) + geom_sf()`.
+You can join them to other dataframes using `full_join()`, for example.
+
 ## Features
 
 - Shannon esturary is clipped out of shapes.
