@@ -114,7 +114,8 @@ lea_166 <- full_join(lea_166 , lea_names) %>%
   mutate(LEA = str_replace(LEA , "-In-" , "-in-")   ) %>% 
   mutate(LEA = str_replace(LEA , "-On-" , "-on-")   ) %>% 
   mutate(LEA = str_replace(LEA , "^Ni$" , "NI")   ) %>% 
-  mutate(COUNTY = str_to_title(COUNTY))
+  mutate(COUNTY = str_to_title(COUNTY))%>% 
+  mutate(COUNTY = if_else(COUNTY=="Ni" , "NI" , COUNTY))
 
 
 
