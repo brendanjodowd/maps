@@ -32,6 +32,10 @@ Maps for counties, admin areas, NUTS2 and NUTS3 regions can be produced using ei
 county_map <- lea_166 %>% group_by(COUNTY) %>% summarise(geometry = st_union(geometry) , AREA=sum(AREA))
 ```
 
+## Example
+
+![sample_map](https://github.com/brendanjodowd/maps/blob/main/images/example.png?raw=true)
+
 ## Maps data sources
 
 The maps are based on open source maps from Ordnance Survey Ireland (OSi) and Ordnance Survey of Northern Ireland (OSNI), and manipulated using tools including the [rmapshaper](https://github.com/ateucher/rmapshaper) package. The OSi maps are available under the [Creative Commons Attribution 4.0 Licence](https://creativecommons.org/licenses/by/4.0/), while the OSNI maps are available under the [UK Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Both of these licences allow the sharing and manipuation of this data provided that the source is acknowledged. 
