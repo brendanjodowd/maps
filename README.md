@@ -32,7 +32,7 @@ Maps for counties, admin areas, NUTS2 and NUTS3 regions can be produced using ei
 county_map <- lea_166 %>% group_by(COUNTY) %>% summarise(geometry = st_union(geometry) , AREA=sum(AREA))
 ```
 
-## :teacher: Example
+## :woman_teacher: Example
 
 See [sample_map.R](https://github.com/brendanjodowd/maps/blob/main/sample_map.R) for code. Uses Pobal HP data from [here](http://trutzhaase.eu/deprivation-index/the-2016-pobal-hp-deprivation-index-for-small-areas/). With thanks to David Wachsmuth for [this useful blog post](https://upgo.lab.mcgill.ca/2019/12/13/making-beautiful-maps/).
 ![sample_map](https://github.com/brendanjodowd/maps/blob/main/images/example.png?raw=true)
