@@ -25,7 +25,7 @@ You can join them to other dataframes using `full_join()`, for example.
 - Includes `cso_name` variable for LEAs, which allows easy linking to [CSO PxStat files](https://data.cso.ie/),
 - Includes `hp_name` variable for LEAs for `lea_137` file only, which allows easy linking to [Pobal HP data](http://trutzhaase.eu/deprivation-index/the-2016-pobal-hp-deprivation-index-for-small-areas/).
 
-## :handshake: Aggregating up for counties and NUTS regions
+## :jigsaw: Aggregating up for counties and NUTS regions
 
 Maps for counties, admin areas, NUTS2 and NUTS3 regions can be produced using either of the shapefiles provided. To produce a map of counties, for example, use:
 ```
