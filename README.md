@@ -1,11 +1,11 @@
-# maps :globe_with_meridians:
+# :globe_with_meridians: maps 
 
 Some maps in geojson format which can be used in R. While they are given as a collection of local electoral areas, they can be very easily aggregated up to produce shapes for counties, administrative areas, NUTS2 and NUTS3 regions.
 
 `lea_166` is the current set of 166 local electoral areas, plus Northern Ireland.
 `lea_137` is the old set of 137 local electoral areas which was used at the time of the last Census in 2016, plus Northern Ireland.
 
-## How to use
+## :raising_hand: How to use
 
 You can import the maps directly from the web using `st_read`:
 ```
@@ -17,7 +17,7 @@ You can join them to other dataframes using `full_join()`, for example.
 
 `st_read()` is part of the [sf package for R](https://cran.r-project.org/web/packages/sf/). The sf package is really neat. I struggled for a long time with SpatialPolygonsDataFrame objects, sf objects are a lot easier. 
 
-## Features
+## 	:sparkles: Features
 
 - Shannon esturary is clipped out of shapes.
 - Regions can be easily aggregated up to produce counties, admin areas, NUTS2 and NUTS3 regions, with full nesting.
@@ -32,12 +32,12 @@ Maps for counties, admin areas, NUTS2 and NUTS3 regions can be produced using ei
 county_map <- lea_166 %>% group_by(COUNTY) %>% summarise(geometry = st_union(geometry) , AREA=sum(AREA))
 ```
 
-## Example
+## :teacher: Example
 
 See [sample_map.R](https://github.com/brendanjodowd/maps/blob/main/sample_map.R) for code. Uses Pobal HP data from [here](http://trutzhaase.eu/deprivation-index/the-2016-pobal-hp-deprivation-index-for-small-areas/). With thanks to David Wachsmuth for [this useful blog post](https://upgo.lab.mcgill.ca/2019/12/13/making-beautiful-maps/).
 ![sample_map](https://github.com/brendanjodowd/maps/blob/main/images/example.png?raw=true)
 
-## Maps data sources
+## :seedling: Maps data sources
 
 The maps are based on open data maps from Ordnance Survey Ireland (OSi) and Ordnance Survey of Northern Ireland (OSNI), and manipulated using tools including the [rmapshaper](https://github.com/ateucher/rmapshaper) package. The OSi maps are available under the [Creative Commons Attribution 4.0 Licence](https://creativecommons.org/licenses/by/4.0/), while the OSNI maps are available under the [UK Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Both of these licences allow the sharing and manipuation of this data provided that the source is acknowledged. 
 
