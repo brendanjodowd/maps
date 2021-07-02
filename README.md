@@ -1,4 +1,4 @@
-# maps
+# maps :globe_with_meridians:
 
 Some maps in geojson format which can be used in R. While they are given as a collection of local electoral areas, they can be very easily aggregated up to produce shapes for counties, administrative areas, NUTS2 and NUTS3 regions.
 
