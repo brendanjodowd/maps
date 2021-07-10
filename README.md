@@ -15,7 +15,7 @@ lea_137 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/le
 Then you can have a look using `plot(lea_166)`, but I like using `ggplot(lea_166) + geom_sf()`.
 You can join them to other dataframes using `full_join()`, for example.
 
-`st_read()` is part of the [sf package for R](https://cran.r-project.org/web/packages/sf/). The sf package is really neat. I struggled for a long time with SpatialPolygonsDataFrame objects, sf objects are a lot easier. 
+`st_read()` is part of the [sf package for R](https://cran.r-project.org/web/packages/sf/). The sf package is really neat, much handier than dealing with SpatialPolygonsDataFrame objects. 
 
 ## 	:sparkles: Features
 
