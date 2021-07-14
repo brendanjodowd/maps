@@ -138,7 +138,8 @@ lea_137 <- st_read("Local_Electoral_Areas_Boundaries_Generalised_100m_-_OSi_Nati
     NUTS3 %in% c("Dublin" , "Mid-East" , "Midlands")~"Eastern and Midland",
     NUTS3 %in% c("Border" , "West" )~"Northern and Western",
     T ~ "Southern"
-  ))
+  ))%>% 
+  ms_simplify(keep = 0.95)
 
 
 
