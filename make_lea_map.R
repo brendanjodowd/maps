@@ -4,7 +4,8 @@ library(rmapshaper)
 library(sf)
 library(csodata)
 library(tmap)
-
+library(cowplot)
+library(leaflet)
 
 
 # Bring in shapefile, correct projection, create new regional variables.
@@ -77,13 +78,29 @@ ni <- st_read("OSNI_Open_Data_-_Largescale_Boundaries_-_County_Boundaries_.geojs
   summarise(geometry = st_union(geometry) , AREA = sum(Area_SqKM)) %>% 
   mutate(LEA="NI" ,COUNTY="NI" ,NUTS3="NI", NUTS2="NI" )
 
-object.size(ni) # 339 kB
-plot(ni)
+
+extra_shape = st_sfc(st_polygon(list(cbind(c(-6.27,-6.27, -8, -8.2, -7.8,-7.55,-7.38,-7.258,-7.257,-7.25,-6.27),
+                                           c(54.11,54.09,53.5,54.47,54.9, 54.9,55.15,55.07,55.05,54.75,54.11)))), crs="+proj=longlat")
+
+# Add the extra shape
+ni <- ni %>% st_union(extra_shape)
+
+rm(extra_shape)
+
+# Make a version of the north for the 166 shape.
+ni_166 <- ni %>% st_difference( lea_166 %>% ungroup() %>% summarise(geometry=st_union(geometry)) )
+
+ggplot(ni_166)+geom_sf()
+
+object.size(ni_166) # 339 kB
+plot(ni_166)
 
 
-lea_166 <- rbind(lea_166  , mutate(ni , ADMIN_AREA ="NI" ))
+lea_166 <- rbind(lea_166  , mutate(ni_166 , ADMIN_AREA ="NI" ))
+rm(ni_166)
 plot(lea_166)
 
+leaflet(lea_166) %>% addPolygons()
 
 ggplot(st_crop(lea_166 , xmin=-9 ,xmax=-7.5 ,ymin=54, ymax=55) , aes(fill=LE_ID)) + geom_sf() 
 
@@ -114,7 +131,7 @@ lea_166 <- full_join(lea_166 , lea_names) %>%
   mutate(LEA = str_replace(LEA , "-In-" , "-in-")   ) %>% 
   mutate(LEA = str_replace(LEA , "-On-" , "-on-")   ) %>% 
   mutate(LEA = str_replace(LEA , "^Ni$" , "NI")   ) %>% 
-  mutate(COUNTY = str_to_title(COUNTY))%>% 
+  mutate(COUNTY = str_to_title(COUNTY)) %>% 
   mutate(COUNTY = if_else(COUNTY=="Ni" , "NI" , COUNTY))
 
 
@@ -138,14 +155,17 @@ lea_137 <- st_read("Local_Electoral_Areas_Boundaries_Generalised_100m_-_OSi_Nati
     NUTS3 %in% c("Dublin" , "Mid-East" , "Midlands")~"Eastern and Midland",
     NUTS3 %in% c("Border" , "West" )~"Northern and Western",
     T ~ "Southern"
-  ))%>% 
+  )) %>% 
   ms_simplify(keep = 0.95)
+#856928 from 923720 bytes
 
 
 
-lea_137 <- rbind(ms_clip(lea_137 , clip=shannon) , mutate(ni  , GUID="NI" ))
-plot(lea_137)
+ni_137 <- ni %>% st_difference( lea_137 %>% ungroup() %>% summarise(geometry=st_union(geometry)) )
 
+lea_137 <- rbind(ms_clip(lea_137 , clip=shannon) , mutate(ni_137  , GUID="NI" ))
+
+rm(ni_137)
 
 lea_names <- st_drop_geometry(lea_137) %>% select(COUNTY , LEA) %>% filter(LEA!="NI") %>% 
   mutate(cso_name = trimws(str_to_title(str_remove(LEA , "\\(\\d{1,2}\\)"))) , COUNTY=str_to_title(COUNTY)) %>% 
