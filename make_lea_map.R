@@ -54,7 +54,7 @@ plot(lea_166 )
 #   st_transform( "+proj=longlat" ) %>% st_union() %>% select(geometry)
 
 
-extra_box = st_sfc(st_polygon(list(cbind(c(-11,-11,-5.5,-5.5,-11,-11,-8.55,-8.55,-11),c(52.84,56,56,51,51,52.51,52.51,52.84,52.84)))) 
+extra_box = st_sfc(st_polygon(list(cbind(c(-11,-11,-5.5,-5.5,-11,-11,-8.7,-8.7,-11),c(52.84,56,56,51,51,52.51,52.51,52.84,52.84)))) 
                    , crs = "+proj=longlat")
 
 
