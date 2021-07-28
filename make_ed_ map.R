@@ -115,7 +115,7 @@ cso_3409 <- read_csv("NPA04.20210721T110744.csv") %>% rename(cso_name = 8, cso_e
   filter(cso_name !="State") %>% mutate(cso_name = str_replace(cso_name , "^001  Carlow Urban" , "001 Carlow Urban"))
 
 
-ed_3409 <- inner_join( ed_3441 , cso_3409) # 3377
+ed_3409 <- inner_join( ed_3441 , cso_3409) # 3377, join by cso_name
 
 only_old <- anti_join(ed_3441 , cso_3409 ) %>% mutate(bit = str_extract(cso_name , "(?<=\\d{3}\\s).*(?=,)"))
 
@@ -139,6 +139,40 @@ ed_3409 <- bind_rows(ed_3409 ,double_matches_3409 , ed_3441 %>% filter(ED=="NI")
 
 rm(double_matches_3409)
 
-ggplot(ed_3409 , aes(fill=ED))+geom_sf()  + theme_void()+ theme(legend.position = "none")
+ggplot(ed_3409 )+geom_sf()  
+#ggplot(ed_3409 , aes(fill=ED))+geom_sf()  + theme_void()+ theme(legend.position = "none")
+
+
+
+hp_ed <- read_csv("HP-Index-2006-2016-HP-Index-Scores-by-ID06b2.csv") %>% select(ID06 , ED_Name , HP2016rel)
+
+# Most HP EDs can be joined to our map using ID06, which we will call HP_ID. 
+
+# Create HP_ID. In most cases it is correct, but in some cases it's not.
+ed_3409 <- ed_3409 %>% mutate(HP_ID = as.integer(cso_ed))
+
+hp_only <- anti_join(hp_ed %>% rename(HP_ID=ID06) , ed_3409) %>% 
+  mutate(ED_Name  = if_else(str_detect(ED_Name , "Gaoithe"), "Ceannúigh/Máistir Gaoithe" , ED_Name)) %>% 
+  mutate(A = str_split(ED_Name , "/", simplify = T)[,1])%>% 
+  mutate(B = str_split(ED_Name , "/", simplify = T)[,2]) %>% 
+  mutate(first = if_else(A<B , A , B)) %>% 
+  mutate(second = if_else(A<B , B , A)) %>% select(-A, -B) %>% 
+  mutate(pattern = str_c(first , second , sep=" // ")) %>% select(-first , -second) %>% 
+  mutate(pattern = str_replace(pattern, "Brishna", "Brisha")) %>% 
+  mutate(pattern = str_replace(pattern, "Daoire", "Doire")) %>% 
+  mutate(pattern = str_replace(pattern, "Drumakeever", "Dunmakeever")) %>% 
+  mutate(pattern = str_remove(pattern, " \\(scarriff rd\\)" )) %>% rename(ID06 = HP_ID)
+cso_only <- anti_join(ed_3409 , hp_ed %>% rename(HP_ID=ID06) )%>% 
+  mutate(A = trimws(str_remove(str_split(cso_name , "/", simplify = T)[,1] ,"999")))%>% 
+  mutate(B = trimws(str_split(cso_name , "/", simplify = T)[,2])) %>% 
+  mutate(first = if_else(A<B , A , B)) %>% 
+  mutate(second = if_else(A<B , B , A)) %>% select(-A, -B) %>% 
+  mutate(pattern = str_c(first , second , sep=" // ")) 
+
+last_matches <- inner_join(hp_only ,cso_only) %>% select(ID06 , HP_ID)
+
+ed_3409 <- left_join(ed_3409 , last_matches) %>% 
+  mutate(HP_ID = if_else(is.na(ID06), HP_ID , ID06))
+
 
 st_write(ed_3409 , "ed_3409.geojson")
