@@ -6,7 +6,7 @@ A bank of maps in geojson format which can be used in R. While they are given as
 
 `lea_137` is the old set of 137 local electoral areas which was used at the time of the last Census in 2016, plus Northern Ireland.
 
-`ed_3441` and `ed_3409` are two maps for electoral divisions (EDs) with 3,441 and 3,409 individual regions, since different datasets use different aggregations of EDs for statistical disclosure reasons.
+`ed_3441` and `ed_3409` are two maps for electoral divisions with 3,441 and 3,409 individual regions (plus Northern Ireland), since different datasets use different aggregations of the electoral divisions.
 
 ## :raising_hand: How to use
 
@@ -24,8 +24,8 @@ The `st_read()` function (part of the [sf package for R](https://cran.r-project.
 - Shannon esturary is clipped out of shapes.
 - Regions can be easily aggregated up to produce counties, admin areas, NUTS2 and NUTS3 regions, with full nesting.
 - Northern Ireland outline included
-- Includes `cso_name` variable for LEAs, which allows easy linking to [CSO PxStat files](https://data.cso.ie/),
-- Includes `hp_name` variable for LEAs for `lea_137` file only, which allows easy linking to [Pobal HP data](http://trutzhaase.eu/deprivation-index/the-2016-pobal-hp-deprivation-index-for-small-areas/).
+- Includes `cso_name` variable for LEAs and EDs, which allows easy linking to [CSO PxStat files](https://data.cso.ie/),
+- Includes `hp_name` variable for LEAs for `lea_137` and `ed_3409`, which allows easy linking to [Pobal HP data](http://trutzhaase.eu/deprivation-index/the-2016-pobal-hp-deprivation-index-for-small-areas/).
 
 ## :jigsaw: Aggregating up for counties and NUTS regions
 
