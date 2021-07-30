@@ -1,9 +1,12 @@
 # :globe_with_meridians: maps 
 
-A bank of maps in geojson format which can be used in R. While they are given as a collection of local electoral areas, they can be very easily aggregated up to produce shapes for counties, administrative areas, NUTS2 and NUTS3 regions.
+A bank of maps in geojson format which can be used in R. While they are given as a collection of local electoral areas or electoral divisions, they can be very easily aggregated up to produce shapes for counties, administrative areas, NUTS2 and NUTS3 regions.
 
 `lea_166` is the current set of 166 local electoral areas, plus Northern Ireland.
+
 `lea_137` is the old set of 137 local electoral areas which was used at the time of the last Census in 2016, plus Northern Ireland.
+
+There are two maps for electoral divisions (EDs), `ed_3441` and `ed_3409`, since different datasets use different aggregations of EDs for statistical disclosure reasons.
 
 ## :raising_hand: How to use
 
