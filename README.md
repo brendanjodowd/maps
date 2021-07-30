@@ -6,7 +6,7 @@ A bank of maps in geojson format which can be used in R. While they are given as
 
 `lea_137` is the old set of 137 local electoral areas which was used at the time of the last Census in 2016, plus Northern Ireland.
 
-There are two maps for electoral divisions (EDs), `ed_3441` and `ed_3409`, since different datasets use different aggregations of EDs for statistical disclosure reasons.
+`ed_3441` and `ed_3409` are two maps for electoral divisions (EDs) with 3,441 and 3,409 individual regions, since different datasets use different aggregations of EDs for statistical disclosure reasons.
 
 ## :raising_hand: How to use
 
@@ -14,11 +14,10 @@ You can import the maps directly from the web using `st_read`:
 ```
 lea_166 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/lea_166.geojson")
 lea_137 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/lea_137.geojson")
+ed_3441 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/ed_3441.geojson")
+ed_3409 <- st_read("https://raw.githubusercontent.com/brendanjodowd/maps/main/ed_3409.geojson")
 ```
-Then you can have a look using `plot(lea_166)`, but I like using `ggplot(lea_166) + geom_sf()`.
-You can join them to other dataframes using `full_join()`, for example.
-
-`st_read()` is part of the [sf package for R](https://cran.r-project.org/web/packages/sf/). The sf package is really neat, much handier than dealing with SpatialPolygonsDataFrame objects. 
+The `st_read()` function (part of the [sf package for R](https://cran.r-project.org/web/packages/sf/)) turns the geojson object into an `sf` (simple features) object. An `sf` object is a data-frame-like object which is integrable with tidyverse and the `ggplot2` plotting system. For example, you can join each of these maps to other datasets using `full_join()`, or you can plot it using `ggplot(lea_166) + geom_sf()`. Two useful guides from Jesse Sadler on [GIS in R](https://www.jessesadler.com/post/gis-with-r-intro/) and [simple feature structure](https://www.jessesadler.com/post/simple-feature-objects/) may be of use.  
 
 ## 	:sparkles: Features
 
